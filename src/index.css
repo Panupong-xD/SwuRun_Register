@@ -537,6 +537,16 @@ body::before {
 .status-shipped { background: var(--status-shipped-bg); color: var(--status-shipped-text); border: 1px solid var(--status-shipped-border); }
 .status-rejected { background: var(--status-rejected-bg); color: var(--status-rejected-text); border: 1px solid var(--status-rejected-border); }
 
+.result-section {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.result-grid--single {
+  display: block;
+  width: 100%;
+}
+
 /* 8. Order Details Card */
 .order-details-card {
   background: #ffffff;
@@ -592,6 +602,28 @@ body::before {
   grid-column: 1 / -1;
 }
 
+/* User Type Badges */
+.user-type-badge {
+  display: inline-block;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  font-size: 0.82rem;
+}
+
+.user-type-student {
+  background: #ede9fe;
+  color: #5b21b6;
+  border: 1px solid #c4b5fd;
+}
+
+.user-type-general {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+/* Status Badges */
 .status-badge {
   display: inline-block;
   font-weight: 700;
@@ -600,7 +632,13 @@ body::before {
   font-size: 0.82rem;
 }
 
-.badge-approved { background: var(--status-approved-bg); color: var(--status-approved-text); }
+.badge-approved {
+  background: var(--status-approved-bg);
+  color: var(--status-approved-text);
+  border: 1.5px solid var(--status-approved-border);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
+}
+
 .badge-pending { background: var(--status-pending-bg); color: var(--status-pending-text); }
 .badge-shipped { background: var(--status-shipped-bg); color: var(--status-shipped-text); }
 .badge-rejected { background: var(--status-rejected-bg); color: var(--status-rejected-text); }

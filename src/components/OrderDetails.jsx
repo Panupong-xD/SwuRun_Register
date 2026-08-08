@@ -20,8 +20,7 @@ export default function OrderDetails({ runner }) {
 
   const getBadgeClass = (statusStr) => {
     const s = String(statusStr).toLowerCase();
-    if (s.includes('ชำระ') || s.includes('อนุมัติ') || s.includes('เรียบร้อย') || s.includes('confirmed')) return 'badge-approved';
-    if (s.includes('จัดส่ง') || s.includes('shipped')) return 'badge-shipped';
+    if (s.includes('จ่ายแล้ว')) return 'badge-approved';
     if (s.includes('ยกเลิก') || s.includes('cancel')) return 'badge-rejected';
     return 'badge-pending';
   };
@@ -61,14 +60,20 @@ export default function OrderDetails({ runner }) {
           {/* User Type */}
           <div className="detail-item">
             <dt>ประเภทผู้สมัคร</dt>
-            <dd>{userType === 'Student' ? 'นิสิต (Student)' : 'บุคคลทั่วไป (General)'}</dd>
+            <dd>
+              <span className={`user-type-badge ${userType === 'Student' ? 'user-type-student' : 'user-type-general'}`}>
+                {userType === 'Student' ? 'นิสิต (Student)' : 'บุคคลทั่วไป (General)'}
+              </span>
+            </dd>
           </div>
 
-          {/* Student ID */}
-          <div className="detail-item">
-            <dt>รหัสนิสิต</dt>
-            <dd>{studentId && studentId !== '' ? studentId : '-'}</dd>
-          </div>
+          {/* Student ID - Only show for students */}
+          {userType === 'Student' && (
+            <div className="detail-item">
+              <dt>รหัสนิสิต</dt>
+              <dd>{studentId && studentId !== '' && studentId !== '-' ? studentId : '-'}</dd>
+            </div>
+          )}
 
           {/* Package */}
           <div className="detail-item">
@@ -97,7 +102,7 @@ export default function OrderDetails({ runner }) {
           </div>
 
           {/* Shipping Address */}
-          <div className="detail-item full-width">
+          <div className="detail-item">
             <dt>ที่อยู่จัดส่ง</dt>
             <dd className="address-text">{shippingAddress || '-'}</dd>
           </div>

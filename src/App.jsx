@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
-import BibCard from './components/BibCard';
 import OrderDetails from './components/OrderDetails';
 import SponsorMarquee from './components/SponsorMarquee';
 
@@ -105,11 +104,8 @@ export default function App() {
               <span className="found-badge">พบข้อมูลการสั่งซื้อ</span>
             </div>
 
-            <div className="result-grid">
-              {/* Left Column: Athletic Digital BIB Card */}
-              <BibCard runner={activeRunner} />
-
-              {/* Right Column: Full Order Details */}
+            <div className="result-grid result-grid--single">
+              {/* Order Details */}
               <OrderDetails runner={activeRunner} />
             </div>
           </section>
