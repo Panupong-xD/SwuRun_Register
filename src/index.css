@@ -1,0 +1,784 @@
+/* ==========================================================================
+   SWU RUN TOGETHER 2026 - Seamless Banner & SWU Gray Color Update
+   ========================================================================== */
+
+/* 1. Design Tokens */
+:root {
+  --color-primary: #1b382b;         /* Deep Forest Green */
+  --color-primary-light: #2d5a45;   /* Emerald Green */
+  --color-accent-red: #d92323;       /* SWU Athletic Red */
+  --color-accent-red-hover: #b81b1b;
+  
+  --color-swu-gray: #5a6578;        /* Srinakharinwirot University Gray */
+  --color-swu-gray-dark: #3a4556;
+
+  --color-bg-main: #f2f6f3;          /* Soft Watercolor Mist */
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text-main: #111827;
+  --color-text-sub: #4b5563;
+  --color-text-muted: #6b7280;
+
+  /* Status Colors */
+  --status-approved-bg: #d1fae5;
+  --status-approved-text: #065f46;
+  --status-approved-border: #a7f3d0;
+
+  --status-pending-bg: #fef3c7;
+  --status-pending-text: #92400e;
+  --status-pending-border: #fde68a;
+
+  --status-shipped-bg: #dbeafe;
+  --status-shipped-text: #1e40af;
+  --status-shipped-border: #bfdbfe;
+
+  --status-rejected-bg: #fee2e2;
+  --status-rejected-text: #991b1b;
+  --status-rejected-border: #fca5a5;
+
+  /* Typography */
+  --font-main: 'Kanit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-athletic: 'Teko', 'Kanit', sans-serif;
+
+  /* Layout & Spacing */
+  --container-max: 1100px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(27, 56, 43, 0.08);
+  --shadow-lg: 0 16px 36px rgba(27, 56, 43, 0.12);
+
+  --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 2. Global Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* 3. Header & Seamless Blended Banner */
+.event-header {
+  position: relative;
+  background-color: transparent;
+  min-height: 280px;
+  padding-bottom: 2rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.banner-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/images/banner_wide.jpg') no-repeat center top / cover;
+  opacity: 0.85;
+  pointer-events: none;
+  /* Smooth Gradient Mask to blend seamlessly into #f2f6f3 */
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 0) 100%);
+}
+
+.header-container {
+  position: relative;
+  z-index: 2;
+  padding-top: 1.25rem;
+  width: 100%;
+}
+
+/* Brand Logos Bar */
+.brand-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.left-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.swu-run-logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.main-title-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.swu-text {
+  font-family: var(--font-athletic);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-swu-gray); /* Srinakharinwirot Gray */
+  letter-spacing: 0.5px;
+}
+
+.run-text {
+  font-family: var(--font-athletic);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-accent-red); /* Athletic Red */
+  letter-spacing: 0.5px;
+}
+
+.swu-run-logo .sub-title {
+  background: var(--color-swu-gray);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  letter-spacing: 1.5px;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.brand-divider {
+  width: 1px;
+  height: 32px;
+  background: #cbd5e1;
+}
+
+.swu-club-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.club-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.club-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-swu-gray-dark);
+}
+
+.club-sub {
+  font-size: 0.65rem;
+  color: var(--color-accent-red);
+  font-weight: 600;
+}
+
+.runner-symbol {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-5km span {
+  font-family: var(--font-athletic);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-accent-red);
+  text-shadow: 2px 2px 0px #000;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+/* Hero Titles */
+.hero-content {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 0.2rem;
+  letter-spacing: -0.5px;
+}
+
+.hero-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-text-sub);
+}
+
+/* 4. Search Bar Section */
+.search-section {
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.search-form {
+  background: #ffffff;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(27, 56, 43, 0.12);
+}
+
+.search-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 0.4rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.65rem 2.2rem 0.65rem 0.85rem;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  background: #f8fafb;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.search-input:focus {
+  border-color: var(--color-primary-light);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+}
+
+.btn-clear-input {
+  position: absolute;
+  right: 5.8rem;
+  background: #e2e8f0;
+  border: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+}
+
+.btn-search {
+  background: var(--color-accent-red);
+  color: #ffffff;
+  border: none;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+
+.btn-search:hover {
+  background: var(--color-accent-red-hover);
+}
+
+/* Demo Chips */
+.demo-chips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+  font-size: 0.75rem;
+}
+
+.chips-label {
+  color: var(--color-text-muted);
+}
+
+.chip-btn {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  padding: 0.15rem 0.5rem;
+  border-radius: 50px;
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.chip-btn:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+/* 5. Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.status-state {
+  text-align: center;
+  max-width: 480px;
+  margin: 1.5rem auto;
+}
+
+.welcome-card, .notfound-card {
+  background: #ffffff;
+  padding: 1.5rem 1.25rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.welcome-card h2, .notfound-card h2 {
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin-bottom: 0.3rem;
+}
+
+.welcome-card p, .notfound-card p {
+  color: var(--color-text-sub);
+  font-size: 0.85rem;
+}
+
+/* Spinner */
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top-color: var(--color-primary-light);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 0.4rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 6. Result Layout */
+.result-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.found-badge {
+  background: #d1fae5;
+  color: #065f46;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: 50px;
+  border: 1px solid #a7f3d0;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* 7. Athletic Digital BIB Card */
+.bib-card {
+  background: #ffffff;
+  border: 2.5px solid #111827;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.bib-header {
+  background: var(--color-primary);
+  color: #ffffff;
+  padding: 0.5rem 0.85rem;
+}
+
+.bib-top-logos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bib-logo-text {
+  font-family: var(--font-athletic);
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.bib-event-tag {
+  background: var(--color-accent-red);
+  font-family: var(--font-athletic);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0 0.4rem;
+  border-radius: 3px;
+}
+
+.bib-body {
+  padding: 1rem 0.85rem;
+  text-align: center;
+}
+
+.bib-category-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.bib-category {
+  font-family: var(--font-athletic);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.bib-size-pill {
+  background: #111827;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.bib-number-display {
+  margin: 0.35rem 0 0.65rem;
+  padding: 0.35rem 0;
+  border-top: 2px dashed #e2e8f0;
+  border-bottom: 2px dashed #e2e8f0;
+}
+
+.bib-number {
+  font-family: var(--font-athletic);
+  font-size: 3.75rem;
+  font-weight: 700;
+  color: #000000;
+  line-height: 0.9;
+  letter-spacing: 1px;
+}
+
+.bib-runner-info {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+}
+
+.bib-runner-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.bib-runner-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-sub);
+}
+
+.bib-status-ribbon {
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.status-approved { background: var(--status-approved-bg); color: var(--status-approved-text); border: 1px solid var(--status-approved-border); }
+.status-pending { background: var(--status-pending-bg); color: var(--status-pending-text); border: 1px solid var(--status-pending-border); }
+.status-shipped { background: var(--status-shipped-bg); color: var(--status-shipped-text); border: 1px solid var(--status-shipped-border); }
+.status-rejected { background: var(--status-rejected-bg); color: var(--status-rejected-text); border: 1px solid var(--status-rejected-border); }
+
+/* 8. Order Details Card */
+.order-details-card {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.details-header {
+  background: #f8fafc;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.details-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.details-sub {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.details-body {
+  padding: 1rem;
+}
+
+.details-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1rem;
+}
+
+.detail-item dt {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.1rem;
+}
+
+.detail-item dd {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  word-break: break-word;
+}
+
+.detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.status-badge {
+  display: inline-block;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 50px;
+  font-size: 0.82rem;
+}
+
+.badge-approved { background: var(--status-approved-bg); color: var(--status-approved-text); }
+.badge-pending { background: var(--status-pending-bg); color: var(--status-pending-text); }
+.badge-shipped { background: var(--status-shipped-bg); color: var(--status-shipped-text); }
+.badge-rejected { background: var(--status-rejected-bg); color: var(--status-rejected-text); }
+
+.size-tag {
+  background: #111827;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 0.82rem;
+}
+
+.btn-preview-slip {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #2563eb;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: var(--transition-fast);
+}
+
+.btn-preview-slip:hover {
+  background: #e2e8f0;
+}
+
+.no-slip-text {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+/* 9. Real Image Sponsor Marquee */
+.sponsor-footer {
+  background: #ffffff;
+  border-top: 1px solid var(--color-border);
+  padding: 1.25rem 0 1rem;
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.sponsor-marquee-header {
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.marquee-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 1.5px;
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  display: flex;
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-25%); }
+}
+
+.sponsor-logo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sponsor-logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(20%);
+  opacity: 0.9;
+  transition: var(--transition-fast);
+}
+
+.sponsor-logo-img:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.footer-copyright {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 0.65rem;
+}
+
+/* 10. Mobile Responsiveness */
+@media (max-width: 768px) {
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-header {
+    min-height: auto;
+    padding-bottom: 1.5rem;
+  }
+
+  .brand-bar {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .left-brand-group {
+    gap: 0.5rem;
+  }
+
+  .swu-text, .run-text {
+    font-size: 1.35rem;
+  }
+
+  .logo-5km span {
+    font-size: 1.7rem;
+  }
+
+  .hero-title {
+    font-size: 1.25rem;
+  }
+
+  .search-form {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .search-input {
+    font-size: 0.85rem;
+    padding: 0.55rem 1.8rem 0.55rem 0.65rem;
+  }
+
+  .btn-clear-input {
+    right: 4.8rem;
+  }
+
+  .btn-search {
+    padding: 0.55rem 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  .bib-number {
+    font-size: 2.85rem;
+  }
+
+  .details-list {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+}
