@@ -1,5 +1,5 @@
 /**
- * Phone normalizer and Google Sheet CSV parser with column aliases
+ * Real-Time Phone normalizer, Google Sheet URL formatter, and Cache-Busting CSV fetcher
  */
 
 export function normalizePhone(phoneStr) {
@@ -9,6 +9,64 @@ export function normalizePhone(phoneStr) {
     digits = '0' + digits.substring(2);
   }
   return digits;
+}
+
+/**
+ * Format any raw Google Sheet URL or Sheet ID into a direct CSV endpoint
+ */
+export function formatGoogleSheetCsvUrl(rawUrlOrId) {
+  if (!rawUrlOrId) return '';
+  let str = rawUrlOrId.trim();
+
+  // If already a published CSV link
+  if (str.includes('/pub') && str.includes('output=csv')) {
+    return str;
+  }
+
+  // If it's a standard Google Sheet URL (docs.google.com/spreadsheets/d/ID/...)
+  if (str.includes('docs.google.com/spreadsheets/d/')) {
+    const parts = str.split('/d/');
+    if (parts[1]) {
+      const sheetId = parts[1].split('/')[0];
+      return `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+    }
+  }
+
+  // If passed only the Sheet ID string
+  if (!str.includes('http') && str.length > 15) {
+    return `https://docs.google.com/spreadsheets/d/${str}/gviz/tq?tqx=out:csv`;
+  }
+
+  return str;
+}
+
+/**
+ * Fetch live data from Google Sheet with no-store cache busting (Real-Time)
+ */
+export async function fetchLiveSheetDataRealtime(sheetUrlOrId) {
+  const formattedUrl = formatGoogleSheetCsvUrl(sheetUrlOrId);
+  if (!formattedUrl) return null;
+
+  // Add cache-busting timestamp parameter to force real-time fetch
+  const cacheBuster = formattedUrl.includes('?')
+    ? `&t=${Date.now()}`
+    : `?t=${Date.now()}`;
+  const finalUrl = formattedUrl + cacheBuster;
+
+  const response = await fetch(finalUrl, {
+    cache: 'no-store',
+    headers: {
+      'Pragma': 'no-cache',
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP Error: ${response.status}`);
+  }
+
+  const csvText = await response.text();
+  return parseCSV(csvText);
 }
 
 export function parseCSV(csvText) {
@@ -30,7 +88,6 @@ export function parseCSV(csvText) {
       rawObj[key] = row[index] ? row[index].trim() : '';
     });
 
-    // Map rawObj keys to standardized properties
     const normalizedRunner = {
       timestamp: getFieldValue(rawObj, ['Timestamp', 'เวลา', 'วันเวลา']),
       name: getFieldValue(rawObj, ['Name', 'ชื่อ', 'ชื่อ-นามสกุล']),
@@ -57,7 +114,6 @@ function getFieldValue(obj, possibleKeys, defaultValue = '-') {
       return obj[key];
     }
   }
-  // Case-insensitive key search
   const objKeys = Object.keys(obj);
   for (const pKey of possibleKeys) {
     const matchKey = objKeys.find(k => k.toLowerCase() === pKey.toLowerCase());

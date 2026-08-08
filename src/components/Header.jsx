@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function Header() {
+export default function Header({ children }) {
   return (
     <header className="event-header">
-      {/* Background Banner Layer with Fade Mask */}
+      {/* Background Banner Layer */}
       <div className="banner-bg"></div>
 
       <div className="container header-container">
@@ -49,6 +49,9 @@ export default function Header() {
             SWU RUN TOGETHER 2026 | ตรวจสอบสเปกเสื้อ รายละเอียดลงทะเบียน และสถานะชำระเงิน
           </p>
         </div>
+
+        {/* Children (e.g. SearchBar) */}
+        {children}
       </div>
     </header>
   );

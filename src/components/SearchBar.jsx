@@ -15,11 +15,6 @@ export default function SearchBar({ onSearch, onClear }) {
     onClear();
   };
 
-  const handleChipClick = (samplePhone) => {
-    setPhone(samplePhone);
-    onSearch(samplePhone);
-  };
-
   return (
     <section className="search-section">
       <form className="search-form" onSubmit={handleSubmit}>
@@ -56,32 +51,6 @@ export default function SearchBar({ onSearch, onClear }) {
           </button>
         </div>
       </form>
-
-      {/* Demo Chips */}
-      <div className="demo-chips">
-        <span className="chips-label">ทดสอบเบอร์:</span>
-        <button
-          type="button"
-          className="chip-btn"
-          onClick={() => handleChipClick('0812345678')}
-        >
-          081-234-5678
-        </button>
-        <button
-          type="button"
-          className="chip-btn"
-          onClick={() => handleChipClick('0898765432')}
-        >
-          089-876-5432
-        </button>
-        <button
-          type="button"
-          className="chip-btn"
-          onClick={() => handleChipClick('0921112233')}
-        >
-          092-111-2233
-        </button>
-      </div>
     </section>
   );
 }

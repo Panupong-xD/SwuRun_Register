@@ -6,7 +6,7 @@ import OrderDetails from './components/OrderDetails';
 import SponsorMarquee from './components/SponsorMarquee';
 
 import { MOCK_RUNNERS } from './data/mockRunners';
-import { normalizePhone, parseCSV } from './utils/csvParser';
+import { normalizePhone, fetchLiveSheetDataRealtime } from './utils/csvParser';
 import { GOOGLE_SHEET_CSV_URL } from './config/appConfig';
 
 export default function App() {
@@ -15,46 +15,55 @@ export default function App() {
   const [searchState, setSearchState] = useState('idle'); // 'idle' | 'loading' | 'found' | 'notfound'
   const [lastQuery, setLastQuery] = useState('');
 
-  // Load Google Sheet CSV if URL is configured in appConfig.js or .env
+  // Initial load on mount if Google Sheet URL is configured
   useEffect(() => {
     if (GOOGLE_SHEET_CSV_URL && GOOGLE_SHEET_CSV_URL.trim() !== '') {
-      fetchLiveSheetData(GOOGLE_SHEET_CSV_URL);
+      fetchRealtimeData(GOOGLE_SHEET_CSV_URL);
     }
   }, []);
 
-  const fetchLiveSheetData = async (url) => {
+  const fetchRealtimeData = async (url) => {
     try {
-      const res = await fetch(url);
-      const csvText = await res.text();
-      const parsedData = parseCSV(csvText);
-      if (parsedData && parsedData.length > 0) {
-        setRunners(parsedData);
+      const liveData = await fetchLiveSheetDataRealtime(url);
+      if (liveData && liveData.length > 0) {
+        setRunners(liveData);
+        return liveData;
       }
     } catch (err) {
-      console.error('Fetch Google Sheet Error:', err);
+      console.warn('Realtime fetch warning:', err);
     }
+    return runners;
   };
 
-  const handleSearch = (query) => {
+  /**
+   * Real-Time Search Handler
+   * Triggers a live Google Sheet API fetch on every search click
+   */
+  const handleSearch = async (query) => {
     setLastQuery(query);
     setSearchState('loading');
 
     const cleanQuery = normalizePhone(query);
 
-    setTimeout(() => {
-      const match = runners.find((r) => {
-        const itemMobile = normalizePhone(r.mobile);
-        return itemMobile && (itemMobile === cleanQuery || itemMobile.endsWith(cleanQuery) || cleanQuery.endsWith(itemMobile));
-      });
+    // 1. Fetch live Google Sheet data in real-time if URL is set
+    let currentData = runners;
+    if (GOOGLE_SHEET_CSV_URL && GOOGLE_SHEET_CSV_URL.trim() !== '') {
+      currentData = await fetchRealtimeData(GOOGLE_SHEET_CSV_URL);
+    }
 
-      if (match) {
-        setActiveRunner(match);
-        setSearchState('found');
-      } else {
-        setActiveRunner(null);
-        setSearchState('notfound');
-      }
-    }, 250);
+    // 2. Find matching runner by mobile number
+    const match = currentData.find((r) => {
+      const itemMobile = normalizePhone(r.mobile);
+      return itemMobile && (itemMobile === cleanQuery || itemMobile.endsWith(cleanQuery) || cleanQuery.endsWith(itemMobile));
+    });
+
+    if (match) {
+      setActiveRunner(match);
+      setSearchState('found');
+    } else {
+      setActiveRunner(null);
+      setSearchState('notfound');
+    }
   };
 
   const handleClearSearch = () => {
@@ -65,32 +74,18 @@ export default function App() {
 
   return (
     <>
-      {/* Event Header & Wide Panoramic Watercolor Banner */}
-      <Header />
+      {/* Header wrapping SearchBar for full banner height */}
+      <Header>
+        <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />
+      </Header>
 
       <main className="main-content container">
-        {/* Search Bar */}
-        <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />
-
         {/* Loading State */}
         {searchState === 'loading' && (
           <div className="status-state">
             <div className="spinner"></div>
-            <p className="state-text">กำลังค้นหาข้อมูล...</p>
+            <p className="state-text">กำลังดึงข้อมูลล่าสุดจาก Google Sheet...</p>
           </div>
-        )}
-
-        {/* Welcome State */}
-        {searchState === 'idle' && (
-          <section className="status-state">
-            <div className="welcome-card">
-              <h2>ระบบตรวจสอบสถานะการสั่งซื้อเสื้อวิ่ง</h2>
-              <p>
-                กรอกเบอร์โทรศัพท์ที่ลงทะเบียนไว้เพื่อตรวจสอบสเปกเสื้อ รายละเอียดลงทะเบียน
-                และสถานะการชำระเงินงาน SWU RUN TOGETHER 2026
-              </p>
-            </div>
-          </section>
         )}
 
         {/* Not Found State */}
