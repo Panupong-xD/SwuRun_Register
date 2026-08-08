@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SWU RUN TOGETHER 2026 - Clean Design System & Stylesheet
+   SWU RUN TOGETHER 2026 - Modern Organic Nature Design System & Stylesheet
    ========================================================================== */
 
 /* 1. Design Tokens */
@@ -12,7 +12,7 @@
   --color-swu-gray: #5a6578;        /* Srinakharinwirot University Gray */
   --color-swu-gray-dark: #3a4556;
 
-  --color-bg-main: #f2f6f3;          /* Soft Watercolor Mist */
+  --color-bg-main: #f4f7f4;          /* Soft Organic Mist */
   --color-surface: #ffffff;
   --color-border: #e2e8f0;
   --color-text-main: #111827;
@@ -67,12 +67,28 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('/images/banner_panoramic.jpg') no-repeat center center / cover;
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: 0;
 }
 
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .container {
@@ -82,30 +98,17 @@ body {
   padding: 0 1rem;
 }
 
+/* 3. Header & Full-Page Subtle Backdrop */
 .event-header {
   position: relative;
-  background-color: var(--color-bg-main);
-  padding: 1.5rem 0 2.5rem;
+  background: transparent;
+  padding: 1.5rem 0 2rem;
   overflow: hidden;
-}
-
-.banner-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('/images/banner_panoramic.jpg') no-repeat center 20% / cover;
-  opacity: 0.85;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 0) 100%);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 0) 100%);
 }
 
 .header-container {
   position: relative;
   z-index: 2;
-  padding-top: 1.25rem;
   width: 100%;
 }
 
@@ -216,20 +219,16 @@ body {
   line-height: 1;
 }
 
+/* Hero Titles & Call To Action */
 .hero-content {
   text-align: center;
   max-width: 680px;
-  margin: 0 auto 1.25rem;
-  padding: 0.85rem 1.25rem;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: var(--shadow-sm);
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
 }
 
 .hero-title {
-  font-size: 1.6rem;
+  font-size: 1.65rem;
   font-weight: 800;
   color: var(--color-primary);
   margin-bottom: 0.2rem;
@@ -239,6 +238,34 @@ body {
 .hero-subtitle {
   font-size: 0.85rem;
   color: var(--color-text-sub);
+}
+
+.cta-action-group {
+  margin-top: 0.85rem;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-order-cta {
+  background: var(--color-accent-red);
+  color: #ffffff;
+  padding: 0.55rem 1.25rem;
+  border-radius: 50px;
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: 0 4px 14px rgba(217, 35, 35, 0.25);
+  transition: var(--transition-fast);
+}
+
+.btn-order-cta:hover {
+  background: var(--color-accent-red-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(217, 35, 35, 0.35);
 }
 
 /* 4. Search Bar Section */
@@ -324,38 +351,6 @@ body {
 
 .btn-search:hover {
   background: var(--color-accent-red-hover);
-}
-
-/* Demo Chips */
-.demo-chips {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.65rem;
-  font-size: 0.75rem;
-}
-
-.chips-label {
-  color: var(--color-text-muted);
-}
-
-.chip-btn {
-  background: #ffffff;
-  border: 1px solid var(--color-border);
-  color: var(--color-primary);
-  padding: 0.15rem 0.5rem;
-  border-radius: 50px;
-  font-family: var(--font-main);
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: var(--transition-fast);
-}
-
-.chip-btn:hover {
-  background: var(--color-primary);
-  color: #ffffff;
 }
 
 /* 5. Main Content Area */
@@ -643,7 +638,7 @@ body {
   color: var(--color-text-muted);
 }
 
-/* 9. Real Image Sponsor Marquee */
+/* 9. Real Image Sponsor Marquee (Jitter-Free Stable 3D Animation) */
 .sponsor-footer {
   background: #ffffff;
   border-top: 1px solid var(--color-border);
@@ -675,17 +670,19 @@ body {
 .marquee-track {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
-  animation: marquee 20s linear infinite;
+  gap: 3rem;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+  will-change: transform;
 }
 
-.marquee-track:hover {
+.marquee-container:hover .marquee-track {
   animation-play-state: paused;
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-25%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .sponsor-logo-item {
@@ -696,16 +693,14 @@ body {
 }
 
 .sponsor-logo-img {
-  height: 38px;
+  height: 36px;
   width: auto;
   object-fit: contain;
-  filter: grayscale(20%);
   opacity: 0.9;
-  transition: var(--transition-fast);
+  transition: opacity 0.2s ease;
 }
 
 .sponsor-logo-img:hover {
-  filter: grayscale(0%);
   opacity: 1;
 }
 
@@ -725,7 +720,6 @@ body {
   }
 
   .event-header {
-    min-height: auto;
     padding-bottom: 1.5rem;
   }
 

@@ -1,11 +1,10 @@
 import React from 'react';
+import { GOOGLE_FORM_URL } from '../config/appConfig';
+import { ExternalLink, ShoppingBag } from 'lucide-react';
 
 export default function Header({ children }) {
   return (
     <header className="event-header">
-      {/* Background Banner Layer */}
-      <div className="banner-bg"></div>
-
       <div className="container header-container">
         {/* Brand Logos Bar */}
         <div className="brand-bar">
@@ -42,15 +41,28 @@ export default function Header({ children }) {
           </div>
         </div>
 
-        {/* Hero Title */}
+        {/* Hero Title & Call-To-Action */}
         <div className="hero-content">
           <h1 className="hero-title">ระบบตรวจสอบสถานะการสั่งซื้อเสื้อวิ่ง</h1>
           <p className="hero-subtitle">
             SWU RUN TOGETHER 2026 | ตรวจสอบสเปกเสื้อ รายละเอียดลงทะเบียน และสถานะชำระเงิน
           </p>
+
+          <div className="cta-action-group">
+            <a
+              href={GOOGLE_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-order-cta"
+            >
+              <ShoppingBag size={17} />
+              <span>สั่งซื้อเสื้อวิ่ง / ลงทะเบียน</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
         </div>
 
-        {/* Children (e.g. SearchBar) */}
+        {/* Children (SearchBar) */}
         {children}
       </div>
     </header>

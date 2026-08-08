@@ -4,18 +4,18 @@ import { SPONSOR_LOGOS } from '../config/sponsors';
 export default function SponsorMarquee() {
   if (!SPONSOR_LOGOS || SPONSOR_LOGOS.length === 0) return null;
 
-  // Duplicate items 4 times to ensure seamless infinite looping marquee animation
-  const marqueeItems = [...SPONSOR_LOGOS, ...SPONSOR_LOGOS, ...SPONSOR_LOGOS, ...SPONSOR_LOGOS];
+  // Duplicate list twice for seamless 50% infinite translation loop
+  const marqueeSet = [...SPONSOR_LOGOS, ...SPONSOR_LOGOS, ...SPONSOR_LOGOS, ...SPONSOR_LOGOS];
 
   return (
     <footer className="sponsor-footer">
       <div className="sponsor-marquee-header">
-        <span className="marquee-title">SPONSORS</span>
+        <span className="marquee-title">OFFICIAL SPONSORS & PARTNERS</span>
       </div>
 
       <div className="marquee-container">
         <div className="marquee-track">
-          {marqueeItems.map((item, idx) => (
+          {marqueeSet.map((item, idx) => (
             <div className="sponsor-logo-item" key={`${item.id}-${idx}`}>
               <img
                 src={item.logoUrl}
